@@ -1,11 +1,11 @@
 package com.laboros;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
 
 public class HDFSService extends Configured implements Tool 
 {
@@ -19,10 +19,23 @@ public class HDFSService extends Configured implements Tool
 			return;
 		}
 		
+		//create config
 		Configuration config = new Configuration();
-		printConfig(config);
+		
+		//invoke ToolRunner
+		try {
+			int retVal = ToolRunner.run(config, new HDFSService(), args);
+			if(retVal ==0){
+				System.out.println("SUCCESS ..");
+			} else {
+				System.out.println("Failed!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static void printConfig(Configuration config) {
 		
 		for(Map.Entry<String, String> entry : config){
