@@ -1,10 +1,9 @@
 package com.laboros;
 
-import java.util.Map;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
 
 
 //hadoop fs -put -Ddfs.replication=5 WordCount.txt /user/edureka
@@ -21,7 +20,22 @@ public class HDFSService extends Configured implements Tool
 		}
 		
 		Configuration conf = new Configuration(Boolean.TRUE);
-		printConf(conf);
+		
+		
+		try {
+			int returnValue=ToolRunner.run(conf, new HDFSService(), args);
+			if(returnValue==0)
+			{
+				System.out.println("SUCCESS");
+			}else{
+				System.out.println("FAILURE");
+			}
+		} catch (Exception e) {
+			System.out.println("FAILURE");
+			e.printStackTrace();
+		}
+		
+//		printConf(conf);
 		
 	}
 	
@@ -33,11 +47,11 @@ public class HDFSService extends Configured implements Tool
 	}
 
 	
-	private static void printConf(Configuration conf) 
-	{
-		for (Map.Entry<String, String> entry : conf) {
-			
-			System.out.println(entry.getKey()+"==="+entry.getValue());
-		}
-	}
+//	private static void printConf(Configuration conf) 
+//	{
+//		for (Map.Entry<String, String> entry : conf) {
+//			
+//			System.out.println(entry.getKey()+"==="+entry.getValue());
+//		}
+//	}
 }
