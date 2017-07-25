@@ -1,0 +1,79 @@
+login as: edureka
+edureka@127.0.0.1's password:
+Last login: Mon Jul 24 10:31:22 2017 from 10.0.2.2
+[edureka@localhost ~]$ cd SAIWS/batch040717/
+[edureka@localhost batch040717]$
+[edureka@localhost batch040717]$ ls
+HadoopJars  JobJars  UNIX  WordCount.txt
+[edureka@localhost batch040717]$ cd JobJars/
+[edureka@localhost JobJars]$ ls
+HDFSService.jar
+[edureka@localhost JobJars]$ cat >> WordCount.txt
+DEER BEAR RIVER
+RIVER RIVER CAT
+CAT BEAR RIVER
+^C
+[edureka@localhost JobJars]$ ls
+HDFSService.jar  WordCount.txt
+[edureka@localhost JobJars]$
+[edureka@localhost JobJars]$ hadoop fs -rmr -skipTrash /user/edureka/*
+rmr: DEPRECATED: Please use 'rm -r' instead.
+17/07/25 08:28:57 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Deleted /user/edureka/hive
+[edureka@localhost JobJars]$
+[edureka@localhost JobJars]$ hadoop fs -ls /user/edureka/
+17/07/25 08:29:04 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[edureka@localhost JobJars]$ java -cp HDFSService.jar com.laboros.HDFSService WordCount.txt /user/edureka
+Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/hadoop/util/Tool
+        at java.lang.ClassLoader.defineClass1(Native Method)
+        at java.lang.ClassLoader.defineClass(ClassLoader.java:800)
+        at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
+        at java.net.URLClassLoader.defineClass(URLClassLoader.java:449)
+        at java.net.URLClassLoader.access$100(URLClassLoader.java:71)
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:361)
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:425)
+        at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:308)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:358)
+        at sun.launcher.LauncherHelper.checkAndLoadMain(LauncherHelper.java:482)
+Caused by: java.lang.ClassNotFoundException: org.apache.hadoop.util.Tool
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:425)
+        at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:308)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:358)
+        ... 13 more
+[edureka@localhost JobJars]$
+[edureka@localhost JobJars]$ java -cp ../HadoopJars/hadoop-common-2.2.0.jar HDFSService.jar com.laboros.HDFSService WordCount.txt /user/edureka
+Error: Could not find or load main class HDFSService.jar
+[edureka@localhost JobJars]$ java -cp ../HadoopJars/hadoop-common-2.2.0.jar:HDFSService.jar com.laboros.HDFSService WordCount.txt /user/edureka
+Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory
+        at org.apache.hadoop.conf.Configuration.<clinit>(Configuration.java:165)
+        at com.laboros.HDFSService.main(HDFSService.java:29)
+Caused by: java.lang.ClassNotFoundException: org.apache.commons.logging.LogFactory
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:425)
+        at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:308)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:358)
+        ... 2 more
+[edureka@localhost JobJars]$ java -cp ../HadoopJars/*:HDFSService.jar com.laboros.HDFSService WordCount.txt /user/edureka
+[edureka@localhost JobJars]$ java -cp ../HadoopJars/*:HDFSService.jar com.laboros.HDFSService WordCount.txt /user/edureka
+2017-07-25 08:32:27,770 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(62)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+SUCCESS
+[edureka@localhost JobJars]$ hadoop fs -ls /user/edureka/
+17/07/25 08:32:43 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 1 items
+-rw-r--r--   3 edureka supergroup         47 2017-07-25 08:32 /user/edureka/WordCount.txt
+[edureka@localhost JobJars]$ hadoop fs -cat /user/edureka/WordCount.txt
+17/07/25 08:32:55 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+DEER BEAR RIVER
+RIVER RIVER CAT
+CAT BEAR RIVER
+[edureka@localhost JobJars]$
