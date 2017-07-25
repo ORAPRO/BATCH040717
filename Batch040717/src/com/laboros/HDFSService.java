@@ -1,10 +1,14 @@
 package com.laboros;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
@@ -68,7 +72,31 @@ public class HDFSService extends Configured implements Tool
 		
 		FSDataOutputStream fsdos=hdfs.create(hdfsPath);
 		
+		//Add Data
 		
+		//step:6: Get the inputStream
+		
+		InputStream is = new FileInputStream(edgeNodeLocalFileName);
+		
+		//step:7: Read The data into byte[] 
+		
+		//step: 8: Submit to the fsdos
+		
+		//step: 9: Create Packets and put in queue.
+		
+		//Step: 10 : Datastream connects to namenode get the datanodes
+		
+		//Step: 11: Put in ack queue
+		
+		//step: 12: FsDos Write on datanodes
+		
+		//step:13: Replication
+		
+		//step: 14: Sync with namenode metadata
+		
+		//step: 15: Completed
+		
+		IOUtils.copyBytes(is, fsdos, conf, Boolean.TRUE);
 		
 		return 0;
 	}
