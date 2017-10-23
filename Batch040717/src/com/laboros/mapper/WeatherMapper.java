@@ -5,13 +5,19 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
 public class WeatherMapper extends
 		Mapper<LongWritable, Text, IntWritable, Text> {
+	
+	String fileName=null;
 
 	protected void setup(
 			Context context)
 			throws java.io.IOException, InterruptedException {
+		
+		FileSplit filSplit=(FileSplit)context.getInputSplit();
+		fileName=filSplit.getPath().getName();
 	};
 
 	@Override
@@ -35,7 +41,7 @@ public class WeatherMapper extends
 			final int year = Integer.parseInt(StringUtils.substring(date, 0, 4));
 			
 			final String max_temp = StringUtils.substring(inputLine, 38,45);
-			context.write(new IntWritable(year), new Text(date+"\t"+max_temp));//(201701014.56)
+			context.write(new IntWritable(year), new Text(date+"\t"+max_temp+"\t"+fileName));//(201701014.56)
 			}
 		}
 		

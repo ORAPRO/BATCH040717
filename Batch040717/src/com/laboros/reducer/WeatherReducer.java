@@ -18,6 +18,7 @@ public class WeatherReducer extends
 		double inputTemp = Double.MIN_VALUE;
 
 		double temp = Double.MIN_VALUE;
+		String fileName = null;
 		for (Text inputValues : values) {
 			final String tokens[] = StringUtils.splitPreserveAllTokens(
 					inputValues.toString(), "\t");
@@ -26,10 +27,12 @@ public class WeatherReducer extends
 			{
 				temp=inputTemp;
 				inputDate = tokens[0]; //20170101
+				fileName=tokens[2];
 					
 			}
+			
 		}
-		context.write(key, new Text(temp+"\t"+inputDate));
+		context.write(key, new Text(temp+"\t"+inputDate+"\t"+fileName));
 
 	};
 }
