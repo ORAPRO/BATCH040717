@@ -83,7 +83,7 @@ public class EncryptionDriver extends Configured implements Tool {
 
 //		weatherJob.setMapOutputKeyClass(IntWritable.class);
 //		weatherJob.setMapOutputValueClass(Text.class);
-		//step: 9 : Setting the reducer output key and value
+		//step: 9 : Setting the reducer  output key and value
 		//TODO set the output key and value
 		encryptJob.setOutputKeyClass(Text.class);
 		encryptJob.setOutputValueClass(NullWritable.class);

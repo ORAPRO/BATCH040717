@@ -12,6 +12,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import com.laboros.mapper.WordCountMapper;
+import com.laboros.partitioner.MyPartitioner;
 import com.laboros.reducer.WordCountReducer;
 
 public class WordCountDriver extends Configured implements Tool {
@@ -81,6 +82,9 @@ public class WordCountDriver extends Configured implements Tool {
 		
 		wordCountJob.setReducerClass(WordCountReducer.class);
 		//step: 8 : Setting the mapper output key and value
+		wordCountJob.setCombinerClass(WordCountReducer.class);
+		wordCountJob.setNumReduceTasks(3);
+		wordCountJob.setPartitionerClass(MyPartitioner.class);
 
 //		wordCountJob.setMapOutputKeyClass(Text.class);
 		wordCountJob.setMapOutputValueClass(IntWritable.class);
