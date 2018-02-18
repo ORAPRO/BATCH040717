@@ -33,7 +33,7 @@ public class TestExample extends TestCase {
 		 MapDriver<LongWritable, Text, Text, IntWritable> mapDriver;
 		 
   public void setUp() {
-	  System.setProperty("hadoop.home.dir", "C://Users//suresh//Downloads//MRUnit-master//MRUnit-master//MRUnit//lib//");
+	  System.setProperty("hadoop.home.dir", "E://SAIWS//BATCHES//Utilities//");
     mapDriver = new MapDriver<LongWritable, Text, Text, IntWritable>(new MapTest());
   }
 

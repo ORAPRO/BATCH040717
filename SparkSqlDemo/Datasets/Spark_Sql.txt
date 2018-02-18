@@ -1,0 +1,132 @@
+SQL Context :
+
+scala> import org.apache.spark.sql._
+scala> var sqlContext = new SQLContext(sc)
+		or
+scala> val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+
+HiveContext:
+
+scala> import org.apache.spark.sql.hive._
+scala> val hc = new HiveContext(sc)
+		or
+scala> val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+
+
+
+Dataframe
+
+val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+
+val df = sqlContext.read.json("file:///home/edureka/spark-1.5.2/examples/src/main/resources/people.json")
+
+df.show()
+
+val people = sc.textFile("file:///home/edureka/spark-1.5.2/examples/src/main/resources/people.txt").toDF
+
+people.show()
+
+JSON Dataset
+
+val employee = sqlContext.read.json("file:///home/edureka/SAIWS/Spark/Datasets/employee.json")   
+//Creating shemaRDD
+
+employee.printSchema()
+
+employee.registerTempTable("employee")
+
+val emp_data = sqlContext.sql("SELECT name, address.city, address.state FROM employee")
+
+emp_data.collect.foreach(println)
+
+val state = sqlContext.sql("SELECT name, address.city FROM employee WHERE address.state= 'California' ")
+
+state.collect.foreach(println)
+
+
+Parquet Dataset
+
+employee.saveAsParquetFile("file:///home/edureka/emp.parquet")
+
+val parFile = sqlContext.parquetFile("file:///home/edureka/emp.parquet")
+
+parFile.printSchema()
+
+parFile.registerTempTable("parFile")
+
+val par_state = sqlContext.sql("SELECT name, address.city FROM parFile WHERE address.state= 'California' ")
+
+par_state.collect.foreach(println)
+
+par_state.saveAsParquetFile("hdfs://localhost:8020/Parquet_output")
+
+
+SparkSQL and HIVE Integration
+
+Spark Shell:
+
+sqlContext.sql("CREATE TABLE IF NOT EXISTS customer (key INT, value STRING) row format delimited fields terminated by ',' ")
+
+sqlContext.sql("LOAD DATA LOCAL INPATH 'file:///home/edureka/SAIWS/Spark/Datasets/customers.txt' INTO TABLE customer")
+
+
+Hive shell:
+
+show tables;
+
+select * from customer;
+
+
+GraphX
+
+import org.apache.spark.graphx._
+import org.apache.spark.rdd.RDD
+
+val vertexArray = Array(
+  (1L, ("Alice", 28)),
+  (2L, ("Bob", 27)),
+  (3L, ("Charlie", 65)),
+  (4L, ("David", 42)),
+  (5L, ("Ed", 55)),
+  (6L, ("Fran", 50))
+  )
+val edgeArray = Array(
+  Edge(2L, 1L, 7),
+  Edge(2L, 4L, 2),
+  Edge(3L, 2L, 4),
+  Edge(3L, 6L, 3),
+  Edge(4L, 1L, 1),
+  Edge(5L, 2L, 2),
+  Edge(5L, 3L, 8),
+  Edge(5L, 6L, 3)
+  )
+
+
+val vertexRDD: RDD[(Long, (String, Int))] = sc.parallelize(vertexArray)
+val edgeRDD: RDD[Edge[Int]] = sc.parallelize(edgeArray)
+
+
+val graph: Graph[(String, Int), Int] = Graph(vertexRDD, edgeRDD)
+
+
+graph.vertices.filter { case (id, (name, age)) => age > 30 }.collect.foreach {
+  case (id, (name, age)) => println(s"$name is $age")
+
+
+
+for (triplet <- graph.triplets.filter(t => t.attr > 5).collect) {
+  println(s"${triplet.srcAttr._1} loves ${triplet.dstAttr._1}")
+}
+
+
+Triangle Count
+
+./bin/run-example org.apache.spark.examples.graphx.Analytics triangles file:///home/edureka/spark-1.4.0/graphx/data/followers.txt --numEPart=2
+
+PageRank
+
+./bin/run-example org.apache.spark.examples.graphx.Analytics pagerank file:///home/edureka/spark-1.4.0/graphx/data/followers.txt --numEPart=2
+
+
+
+

@@ -1,0 +1,19 @@
+Spark SQL
+
+import org.apache.spark.sql.SparkSession
+
+val spark = SparkSession
+  .builder()
+  .appName("Spark SQL basic example")
+  .config("spark.some.config.option", "some-value")
+  .getOrCreate()
+  
+
+val spark = SparkSession.builder.getOrCreate();
+import spark.implicits._ // CONVERT FROM RDD to DATAFRAMES
+
+val df = spark.read.json("file:///usr/lib/spark-2.1.1-bin-hadoop2.7/examples/src/main/resources/people.json")
+
+df.printSchema
+df.select("name").show()
+df.select($"name",$"age"+1).show()

@@ -1,0 +1,8 @@
+*.class
+*.cache
+*/target/*
+.history
+project
+target
+*.settings
+*.eclipse*

@@ -1,6 +1,7 @@
 
 
 import scala.util.Random
+import java.util.{ArrayList,HashMap};
 
 class TestImport {
     def printRandom {
